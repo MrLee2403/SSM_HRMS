@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oasis.lee.dao.JobDao">
+  <resultMap id="BaseResultMap" type="com.oasis.lee.dao.pojo.Job">
+    <constructor>
+      <idArg column="jno" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="jname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jtype" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    jno, jname, jtype
+  </sql>
+  <sql id="Job_Emp_List">
+    eno, dno, e.jno, ename, esex, ebirthday, eid, eedu, hireday, jobstarday, estate, etype,
+efrom
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_job
+    where jno = #{jno,jdbcType=INTEGER}
+  </select>
+    <select id="findAll" resultType="com.oasis.lee.dao.pojo.Job">
+      select <include refid="Base_Column_List"/> from t_job
+    </select>
+  <select id="findByName" resultType="com.oasis.lee.dao.pojo.Job">
+    select <include refid="Base_Column_List"/> from t_job where jname like concat('%',#{jname},'%')
+  </select>
+    <select id="findEmp" resultType="com.oasis.lee.dao.pojo.Emp">
+      select <include refid="Job_Emp_List"/> from t_emp e left join t_job j on e.jno=j.jno where j.jname=#{jname}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_job
+    where jno = #{jno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.oasis.lee.dao.pojo.Job">
+    insert into t_job (jno, jname, jtype
+      )
+    values (#{jno,jdbcType=INTEGER}, #{jname,jdbcType=VARCHAR}, #{jtype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.oasis.lee.dao.pojo.Job">
+    insert into t_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jno != null">
+        jno,
+      </if>
+      <if test="jname != null">
+        jname,
+      </if>
+      <if test="jtype != null">
+        jtype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jno != null">
+        #{jno,jdbcType=INTEGER},
+      </if>
+      <if test="jname != null">
+        #{jname,jdbcType=VARCHAR},
+      </if>
+      <if test="jtype != null">
+        #{jtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oasis.lee.dao.pojo.Job">
+    update t_job
+    <set>
+      <if test="jname != null">
+        jname = #{jname,jdbcType=VARCHAR},
+      </if>
+      <if test="jtype != null">
+        jtype = #{jtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jno = #{jno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oasis.lee.dao.pojo.Job">
+    update t_job
+    set jname = #{jname,jdbcType=VARCHAR},
+      jtype = #{jtype,jdbcType=VARCHAR}
+    where jno = #{jno,jdbcType=INTEGER}
+  </update>
+</mapper>

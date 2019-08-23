@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.oasis.lee.dao.DimReportDao">
+
+    <select id="findDim" parameterType="map" resultType="com.oasis.lee.dao.pojo.DimDTO">
+        select (@i:=@i+1)AS id,info.* from (select d.dname,j.jname,e.ename,e.esex,m.eddate,m.edtype from t_emp e LEFT JOIN t_dept d on e.dno=d.dno LEFT JOIN t_job j on e.jno=j.jno LEFT JOIN t_emp_dimission m on e.eno = m.eno where m.eddate BETWEEN #{begin}  and #{end}) info,(select @i:=0) AS id
+    </select>
+
+</mapper>

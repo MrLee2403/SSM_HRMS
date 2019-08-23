@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oasis.lee.dao.EmpDao" >
+  <resultMap id="BaseResultMap" type="com.oasis.lee.dao.pojo.Emp" >
+    <constructor >
+      <idArg column="eno" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dno" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="jno" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ename" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="esex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ebirthday" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="eid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eedu" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="hireday" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="jobstarday" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="estate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="etype" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="efrom" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    eno, dno, jno, ename, esex, ebirthday, eid, eedu, hireday, jobstarday, estate, etype, 
+    efrom
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_emp
+    where eno = #{eno,jdbcType=INTEGER}
+  </select>
+    <select id="findAll" resultType="com.oasis.lee.dao.pojo.Emp">
+      select <include refid="Base_Column_List"/> from t_emp
+    </select>
+  <select id="findByName" resultType="com.oasis.lee.dao.pojo.Emp">
+    select <include refid="Base_Column_List"/> from t_emp where ename like concat('%',#{ename},'%')
+  </select>
+  <select id="findByEmp" resultType="com.oasis.lee.dao.pojo.Emp">
+    select eno, e.dno, jno, ename, esex, ebirthday, eid, eedu, hireday, jobstarday, estate, etype,
+    efrom from t_emp e LEFT JOIN t_dept d on e.dno=d.dno where d.dname= #{dname};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_emp
+    where eno = #{eno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.oasis.lee.dao.pojo.Emp" >
+    insert into t_emp (eno, dno, jno, 
+      ename, esex, ebirthday, 
+      eid, eedu, hireday, jobstarday, 
+      estate, etype, efrom
+      )
+    values (#{eno,jdbcType=INTEGER}, #{dno,jdbcType=INTEGER}, #{jno,jdbcType=INTEGER}, 
+      #{ename,jdbcType=VARCHAR}, #{esex,jdbcType=VARCHAR}, #{ebirthday,jdbcType=DATE}, 
+      #{eid,jdbcType=VARCHAR}, #{eedu,jdbcType=VARCHAR}, #{hireday,jdbcType=DATE}, #{jobstarday,jdbcType=DATE}, 
+      #{estate,jdbcType=VARCHAR}, #{etype,jdbcType=VARCHAR}, #{efrom,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.oasis.lee.dao.pojo.Emp" >
+    insert into t_emp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eno != null" >
+        eno,
+      </if>
+      <if test="dno != null" >
+        dno,
+      </if>
+      <if test="jno != null" >
+        jno,
+      </if>
+      <if test="ename != null" >
+        ename,
+      </if>
+      <if test="esex != null" >
+        esex,
+      </if>
+      <if test="ebirthday != null" >
+        ebirthday,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="eedu != null" >
+        eedu,
+      </if>
+      <if test="hireday != null" >
+        hireday,
+      </if>
+      <if test="jobstarday != null" >
+        jobstarday,
+      </if>
+      <if test="estate != null" >
+        estate,
+      </if>
+      <if test="etype != null" >
+        etype,
+      </if>
+      <if test="efrom != null" >
+        efrom,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eno != null" >
+        #{eno,jdbcType=INTEGER},
+      </if>
+      <if test="dno != null" >
+        #{dno,jdbcType=INTEGER},
+      </if>
+      <if test="jno != null" >
+        #{jno,jdbcType=INTEGER},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="esex != null" >
+        #{esex,jdbcType=VARCHAR},
+      </if>
+      <if test="ebirthday != null" >
+        #{ebirthday,jdbcType=DATE},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=VARCHAR},
+      </if>
+      <if test="eedu != null" >
+        #{eedu,jdbcType=VARCHAR},
+      </if>
+      <if test="hireday != null" >
+        #{hireday,jdbcType=DATE},
+      </if>
+      <if test="jobstarday != null" >
+        #{jobstarday,jdbcType=DATE},
+      </if>
+      <if test="estate != null" >
+        #{estate,jdbcType=VARCHAR},
+      </if>
+      <if test="etype != null" >
+        #{etype,jdbcType=VARCHAR},
+      </if>
+      <if test="efrom != null" >
+        #{efrom,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oasis.lee.dao.pojo.Emp" >
+    update t_emp
+    <set >
+      <if test="dno != null" >
+        dno = #{dno,jdbcType=INTEGER},
+      </if>
+      <if test="jno != null" >
+        jno = #{jno,jdbcType=INTEGER},
+      </if>
+      <if test="ename != null" >
+        ename = #{ename,jdbcType=VARCHAR},
+      </if>
+      <if test="esex != null" >
+        esex = #{esex,jdbcType=VARCHAR},
+      </if>
+      <if test="ebirthday != null" >
+        ebirthday = #{ebirthday,jdbcType=DATE},
+      </if>
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=VARCHAR},
+      </if>
+      <if test="eedu != null" >
+        eedu = #{eedu,jdbcType=VARCHAR},
+      </if>
+      <if test="hireday != null" >
+        hireday = #{hireday,jdbcType=DATE},
+      </if>
+      <if test="jobstarday != null" >
+        jobstarday = #{jobstarday,jdbcType=DATE},
+      </if>
+      <if test="estate != null" >
+        estate = #{estate,jdbcType=VARCHAR},
+      </if>
+      <if test="etype != null" >
+        etype = #{etype,jdbcType=VARCHAR},
+      </if>
+      <if test="efrom != null" >
+        efrom = #{efrom,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where eno = #{eno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oasis.lee.dao.pojo.Emp" >
+    update t_emp
+    set dno = #{dno,jdbcType=INTEGER},
+      jno = #{jno,jdbcType=INTEGER},
+      ename = #{ename,jdbcType=VARCHAR},
+      esex = #{esex,jdbcType=VARCHAR},
+      ebirthday = #{ebirthday,jdbcType=DATE},
+      eid = #{eid,jdbcType=VARCHAR},
+      eedu = #{eedu,jdbcType=VARCHAR},
+      hireday = #{hireday,jdbcType=DATE},
+      jobstarday = #{jobstarday,jdbcType=DATE},
+      estate = #{estate,jdbcType=VARCHAR},
+      etype = #{etype,jdbcType=VARCHAR},
+      efrom = #{efrom,jdbcType=VARCHAR}
+    where eno = #{eno,jdbcType=INTEGER}
+  </update>
+</mapper>
